@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 
 public class Hangman extends JFrame implements ActionListener {
     // counts the number of incorrect guesses player has made
@@ -12,10 +12,12 @@ public class Hangman extends JFrame implements ActionListener {
     // store the challenge from the WordDB here
     private String[] wordChallenge;
     private final WordDB wordDB;
-    private JLabel hangmanImage, categoryLabel, hiddenWordLabel, resultLabel, wordLabel;
+    private JLabel hangmanImage, categoryLabel, hiddenWordLabel, resultLabel, wordLabel, score;
     private JButton[] letterButtons;
-    private JDialog resultDialog;
+    private JDialog resultDialog, setScore;
     private Font customFont;
+
+
 
 
     public Hangman() {
@@ -69,11 +71,11 @@ public class Hangman extends JFrame implements ActionListener {
         // create the letter buttons
         for (char c = 'A'; c <= 'Z'; c++) {
             JButton button = new JButton(Character.toString(c));
-            button.setBackground(Color.BLACK);
-            button.setFont(customFont.deriveFont(22f));
-            button.setForeground(CommonConstants.PRIMARY_COLOR);
+            button.setBackground(CommonConstants.PRIMARY_COLOR);
+            button.setFont(customFont.deriveFont(28f));
+            // Changes the color of the letters
+            button.setForeground(Color.BLACK);
             button.addActionListener(this);
-
             // using ASCII values to calculate the current index
             int currentIndex = c - 'A';
 
@@ -104,8 +106,6 @@ public class Hangman extends JFrame implements ActionListener {
         getContentPane().add(buttonPanel);
     }
 
-    // Score tracker
-    int score;
 
 
     @Override
@@ -146,10 +146,7 @@ public class Hangman extends JFrame implements ActionListener {
 
                 // the user guessed the word right
                 if (!hiddenWordLabel.getText().contains("*")) {
-                    // display dialog with success result
-                    score += 200;
-                    resultLabel.setText("You got it right!");
-                    System.out.println("Score: " + score);
+                    resultLabel.setText("Correct!");
                     resultDialog.setVisible(true);
                 }
 
@@ -175,6 +172,7 @@ public class Hangman extends JFrame implements ActionListener {
 
     }
 
+
     private void createResultDialog() {
         resultDialog = new JDialog();
         resultDialog.setTitle("Result");
@@ -183,7 +181,7 @@ public class Hangman extends JFrame implements ActionListener {
         resultDialog.setResizable(false);
         resultDialog.setLocationRelativeTo(this);
         resultDialog.setModal(true);
-        resultDialog.setLayout(new GridLayout(3, 1));
+        resultDialog.setLayout(new GridLayout(4, 1));
         resultDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -192,6 +190,7 @@ public class Hangman extends JFrame implements ActionListener {
         });
 
         resultLabel = new JLabel();
+        // Text for ending screen
         resultLabel.setForeground(Color.WHITE);
         resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -199,14 +198,19 @@ public class Hangman extends JFrame implements ActionListener {
         wordLabel.setForeground(Color.WHITE);
         wordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        score = new JLabel();
+        score.setForeground(Color.WHITE);
+        score.setHorizontalAlignment(SwingConstants.CENTER);
+
         JButton restartButton = new JButton("Restart");
-        restartButton.setForeground(Color.WHITE);
-        restartButton.setBackground(CommonConstants.SECONDARY_COLOR);
+        restartButton.setForeground(Color.BLACK);
+        restartButton.setBackground(CommonConstants.PRIMARY_COLOR);
         restartButton.addActionListener(this);
 
         resultDialog.add(resultLabel);
         resultDialog.add(wordLabel);
         resultDialog.add(restartButton);
+        resultDialog.add(score);
     }
 
     private void resetGame() {

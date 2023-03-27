@@ -1,0 +1,5 @@
+Electronics,Phone,Tablet,TV,Laptop,Headphones,Console
+Sports,Basketball,Soccer,Football,Badminton,Volleyball,Golf,
+Fruits,Banana,Orange,Apple,Strawberry,Mango,Tomato,
+Brands,Apple,Netflix,NBA,Walmart,
+Celebrities,Michael B Jordan, LeBron James, Lil Baby, Adam Sandler
